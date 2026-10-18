@@ -1,22 +1,13 @@
-import numpy as np
+import torch
 
-def reshape_matrix(a: list[list[int|float]], new_shape: tuple[int, int]) -> list[list[int|float]]:
-	#Write your code here and return a python list after reshaping by using numpy's tolist() method
-    rows = len(a)
-    cols = len(a[0]) if rows > 0 else 0
+def reshape_matrix(a, new_shape) -> torch.Tensor:
+    """
+    Reshape a 2D matrix to the requested shape.
+    Return an empty tensor if the element counts mismatch.
+    """
+    a_t = torch.as_tensor(a, dtype=torch.float)
 
-    if rows * cols != new_shape[0] * new_shape[1]:
-        return []
+    if a_t.numel() != new_shape[0] * new_shape[1]:
+        return torch.tensor([])
 
-    result = []
-    row = []
-
-    for i in range(rows):
-        for j in range(cols):
-            row.append(a[i][j])
-
-            if len(row) == new_shape[1]:
-                result.append(row)
-                row = []
-
-    return result
+    return a_t.reshape(new_shape)
