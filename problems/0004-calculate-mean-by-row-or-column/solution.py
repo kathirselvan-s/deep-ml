@@ -1,14 +1,16 @@
-def calculate_matrix_mean(matrix: list[list[float]], mode: str) -> list[float]:
+import torch
+
+def calculate_matrix_mean(matrix, mode: str) -> torch.Tensor:
+    """
+    Calculate mean of a 2D matrix per row or per column using PyTorch.
+    """
+    a_t = torch.as_tensor(matrix, dtype=torch.float)
+
     if mode == "row":
-        return [sum(row) / len(row) for row in matrix]
+        return torch.mean(a_t, dim=1)
 
     elif mode == "column":
-        cols = len(matrix[0])
-        rows = len(matrix)
-        return [
-            sum(matrix[i][j] for i in range(rows)) / rows
-            for j in range(cols)
-        ]
+        return torch.mean(a_t, dim=0)
 
     else:
         raise ValueError("Mode must be 'row' or 'column'")
