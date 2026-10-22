@@ -1,21 +1,11 @@
+import torch
 
-import math
-
-def calculate_eigenvalues(matrix: list[list[float | int]]) -> list[float]:
-    a, b = matrix[0]
-    c, d = matrix[1]
-
-    trace = a + d
-    determinant = a * d - b * c
-    dis = trace**2 - 4 * determinant
-
-    if dis < 0:
-        raise ValueError("Matrix has complex eigenvalues")
-
-    e1 = (trace + math.sqrt(dis)) / 2
-    e2 = (trace - math.sqrt(dis)) / 2
-
-    e = [float(e1), float(e2)]
-    e.sort(reverse=True)
+def calculate_eigenvalues(matrix: torch.Tensor) -> torch.Tensor:
+    """
+    Compute eigenvalues of a 2x2 matrix using PyTorch.
+    Input: 2x2 tensor; Output: 1-D tensor with the two eigenvalues in descending order (highest to lowest).
+    """
+    e = torch.linalg.eigvals(matrix)
+    e = e.real.sort(descending=True).values
 
     return e
