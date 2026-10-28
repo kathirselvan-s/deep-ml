@@ -1,0 +1,32 @@
+
+def calculate_covariance_matrix(vectors: list[list[float]]) -> list[list[float]]:
+    n_features = len(vectors)
+    n_observations = len(vectors[0])
+
+    means = [
+        sum(feature) / n_observations
+        for feature in vectors
+    ]
+
+    covariance_matrix = []
+
+    for i in range(n_features):
+        row = []
+
+        for j in range(n_features):
+            total = 0.0
+
+            for k in range(n_observations):
+                total += (
+                    (vectors[i][k] - means[i])
+                    * (vectors[j][k] - means[j])
+                )
+
+            covariance = total / (n_observations - 1)
+            row.append(float(covariance))
+
+        covariance_matrix.append(row)
+
+    return covariance_matrix
+
+
